@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
-@ComponentScan(basePackages = {"controller","controller"})
+@ComponentScan(basePackages = {"controller"})
 @EntityScan(basePackages = {"model"})
 @EnableJpaRepositories(basePackages = {"dao"})
 @SpringBootApplication
