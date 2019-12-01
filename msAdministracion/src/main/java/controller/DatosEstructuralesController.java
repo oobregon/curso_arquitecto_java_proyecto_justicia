@@ -16,10 +16,15 @@ public class DatosEstructuralesController {
 	@Autowired
 	ServicioLocalidades sLoc;
 	
-	@GetMapping (value = "/iniciarGeografia",produces = MediaType.TEXT_PLAIN_VALUE) 
-	public String inicializar() throws Exception {
-		sProv.inicializarProvincias();
+	@GetMapping (value = "/iniciarGeografia/provincias",produces = MediaType.TEXT_PLAIN_VALUE) 
+	public String inicializarProvincias() throws Exception {
+		sProv.inicializarProvincias();		
+		return "Inicialización Provincias finalizada con éxito";
+	}
+	
+	@GetMapping (value = "/iniciarGeografia/localidades",produces = MediaType.TEXT_PLAIN_VALUE) 
+	public String inicializarLocalidades() throws Exception {		
 		sLoc.inicializarLocalidades();
-		return "Inicialización Provincias-Localidades finalizada con éxito";
+		return "Inicialización Localidades finalizada con éxito";
 	}
 }
