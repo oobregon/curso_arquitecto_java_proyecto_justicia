@@ -27,7 +27,7 @@ public class ServicioLocalidadesImpl implements ServicioLocalidades {
 	DaoProvincias daoProv;
 
 	@Override
-	public void inicializarLocalidades() {
+	public void inicializarLocalidades() throws Exception {
 		daoLoc.deleteAll();
 		int limInferior = 0;
 		int desplazamiento = 500;

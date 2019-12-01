@@ -20,7 +20,7 @@ public class ServicioProvinciasImpl implements ServicioProvincias {
 	DaoProvincias daoProv;
 	
 	//@Override
-	public void inicializarProvincias() {
+	public void inicializarProvincias() throws Exception {
 		String url = "http://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/115/22?page=1";		
 		List provsEncapsuladas = rest.getForObject(url,List.class);
 		List<Provincia> provincias = obtenerEntidades(provsEncapsuladas); 

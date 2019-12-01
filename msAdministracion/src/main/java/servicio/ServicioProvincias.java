@@ -1,5 +1,5 @@
 package servicio;
 
 public interface ServicioProvincias {
-	void inicializarProvincias();	
+	void inicializarProvincias() throws Exception;	
 }
