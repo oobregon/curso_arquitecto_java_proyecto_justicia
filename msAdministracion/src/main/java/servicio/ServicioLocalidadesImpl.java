@@ -29,21 +29,24 @@ public class ServicioLocalidadesImpl implements ServicioLocalidades {
 	@Override
 	public void inicializarLocalidades() {
 		daoLoc.deleteAll();
-		DtoLocalidades jsonLocalidades = rest.getForObject(obtenerUrl(0),DtoLocalidades.class);
-		insertarPaginando(jsonLocalidades,0);			
+		int limInferior = 0;
+		int desplazamiento = 100;
+		String url = obtenerUrl(limInferior,desplazamiento);		
+		DtoLocalidades jsonLocalidades = rest.getForObject(url,DtoLocalidades.class);
+		insertarPorRangos(jsonLocalidades,limInferior,desplazamiento);			
 	}
 	
-	private String obtenerUrl(int indice) {
-		String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=espana-municipios&start=" + indice + "&rows=" + indice + "&fields=cpro,provincia,cmun,municipio";
+	private String obtenerUrl(int indice,int desplazamiento) {
+		String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=espana-municipios&start=" + indice + "&rows=" + desplazamiento + "&fields=cpro,provincia,cmun,municipio";
 		return url;
 	}	
 	
-	private void insertarPaginando(DtoLocalidades jsonLocalidades,int indice) {		
+	private void insertarPorRangos(DtoLocalidades jsonLocalidades,int indice,int desplazamiento) {		
 		int numTotalRegs = jsonLocalidades.getNhits();
-		int numNulos = 0;
+		int numNulos = 0;		
 		do {			
-			List<DtoRegistros> registros = jsonLocalidades.getRecords();
 			List<Localidad> lista = new ArrayList<Localidad>();
+			List<DtoRegistros> registros = jsonLocalidades.getRecords();						
 			for(DtoRegistros reg : registros) {			
 				DtoLocalidad dtoLocalidad = reg.getFields();
 				try {
@@ -52,27 +55,16 @@ public class ServicioLocalidadesImpl implements ServicioLocalidades {
 							Integer.parseInt(dtoLocalidad.getCpro()),
 	                        dtoLocalidad.getMunicipio(),
 	                        provincia);					
-					lista.add(localidad);
-				} catch(Exception ex) {
+					lista.add(localidad);					
+				} catch(Exception ex) {					
 					numNulos++;
-					System.out.println("Null en algo:" + dtoLocalidad.getMunicipio() + " " + dtoLocalidad.getCmun() + " " + 
-							dtoLocalidad.getCpro() + " " + dtoLocalidad.getProvincia());
 				}
 			}
 			daoLoc.saveAll(lista);
-			jsonLocalidades = rest.getForObject(obtenerUrl(indice+=500),DtoLocalidades.class);
+			String url = "";
+			url = obtenerUrl(indice+=desplazamiento,desplazamiento);			
+			jsonLocalidades = rest.getForObject(url,DtoLocalidades.class);			
 		} while (indice < numTotalRegs);
 		System.out.println("Localidades no insertadas: " + numNulos);
-	}		
-	
-
-	@Override
-	public List<Localidad> obtenerPorProvincia(int idProvincia) {		
-		return daoLoc.findByIdProvincia(idProvincia);
-	}
-
-	@Override
-	public Localidad obtener(int idLocalidad) {
-		return daoLoc.findById(idLocalidad).get();
-	}
+	}			
 }

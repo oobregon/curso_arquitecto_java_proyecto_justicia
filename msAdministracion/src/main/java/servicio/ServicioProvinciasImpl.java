@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import dao.DaoProvincias;
-import dto.DtoLocalidades;
 import model.Provincia;
 
 @Service
@@ -39,16 +38,5 @@ public class ServicioProvinciasImpl implements ServicioProvincias {
 			provincias.add(provincia);
 		}
 		return provincias;
-	}
-	
-	
-	@Override
-	public Provincia obtenerProvincia(int idProvincia) {
-		return daoProv.findById(idProvincia).get();
-	}
-
-	@Override
-	public List<Provincia> obtenerProvincias() {
-		return daoProv.findAll();
 	}
 }

@@ -9,7 +9,6 @@ import servicio.ServicioProvincias;
 
 @RestController
 public class DatosEstructuralesController {
-	// Probando
 	@Autowired
 	ServicioProvincias sProv;
 

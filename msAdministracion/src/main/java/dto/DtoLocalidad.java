@@ -3,6 +3,7 @@ package dto;
 import java.io.Serializable;
 
 public class DtoLocalidad implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String cpro;
 	private String provincia;
 	private String cmun;	
