@@ -30,7 +30,7 @@ public class ServicioLocalidadesImpl implements ServicioLocalidades {
 	public void inicializarLocalidades() {
 		daoLoc.deleteAll();
 		int limInferior = 0;
-		int desplazamiento = 100;
+		int desplazamiento = 500;
 		String url = obtenerUrl(limInferior,desplazamiento);		
 		DtoLocalidades jsonLocalidades = rest.getForObject(url,DtoLocalidades.class);
 		insertarPorRangos(jsonLocalidades,limInferior,desplazamiento);			
