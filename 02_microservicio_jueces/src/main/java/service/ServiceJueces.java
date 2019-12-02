@@ -9,7 +9,7 @@ public interface ServiceJueces {
 
 	List<Juez> buscarAllJueces();
 	void altaJuez(Juez juez);
-	void bajaLogicaJuez(int idJuez);
+	void cambioEstadoJuez(int idJuez);
 	
 	
 }

@@ -33,11 +33,16 @@ public class ServiceJuecesImpl implements ServiceJueces {
 
 
 	@Override
-	public void bajaLogicaJuez(int idJuez) {
+	public void cambioEstadoJuez(int idJuez) {
 		Optional<Juez> juezO = daos.findById(idJuez);
-		Juez juez = juezO.orElse(null);		
-		String estado = "INACTIVO";
+		Juez juez = juezO.orElse(null);	
+		String estado=null;
 		if (juez!= null) {
+			if (juez.getEstado().equals("ACTIVO")) {
+				estado = "INACTIVO";
+			}else {
+				estado = "ACTIVO";
+			}	
 			juez.setEstado(estado);
 			daos.save(juez);
 		}
