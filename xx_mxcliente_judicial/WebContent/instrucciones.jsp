@@ -39,7 +39,7 @@
 		</table>
 		</c:when>
    <c:otherwise>
-    <h2>No tiene instruciones</h2>
+    <h2>No tiene instrucciones</h2>
 	</c:otherwise>
 	</c:choose>
 
