@@ -39,7 +39,7 @@
 						<td>${m.idJuzgado}</td>
 						<td>&nbsp;${m.nombreProceso}&nbsp;</td>
 						<td>${m.numeroPiezas}</td>
-						<td>&nbsp;${m.fechaInicio}&nbsp;</td>
+						<td style="text-align: center;">&nbsp;${m.fechaInicio}&nbsp;</td>
 						<td style="text-align: center;">&nbsp;${m.estado}&nbsp;</td>
 					    <c:choose>
    						 <c:when test="${'EN_PROCESO'== m.estado}">
