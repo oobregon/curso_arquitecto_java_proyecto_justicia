@@ -18,9 +18,6 @@ public class Localidad implements Serializable {
 	@Column(name="id_localidad")
 	private int idLocalidad;
 
-	@Column(name="id_provincia",insertable = false,updatable = false)
-	private int idProvincia;
-
 	@Column(name="nombre_municipio")
 	private String nombreMunicipio;
 
@@ -31,16 +28,14 @@ public class Localidad implements Serializable {
 
 	public Localidad() {
 	}
-		
 
-	public Localidad(int idLocalidad, int idProvincia, String nombreMunicipio, Provincia provincia) {
+	
+	public Localidad(int idLocalidad, String nombreMunicipio, Provincia provincia) {
 		super();
 		this.idLocalidad = idLocalidad;
-		this.idProvincia = idProvincia;
 		this.nombreMunicipio = nombreMunicipio;
 		this.provincia = provincia;
 	}
-
 
 
 	public int getIdLocalidad() {
@@ -49,14 +44,6 @@ public class Localidad implements Serializable {
 
 	public void setIdLocalidad(int idLocalidad) {
 		this.idLocalidad = idLocalidad;
-	}
-
-	public int getIdProvincia() {
-		return this.idProvincia;
-	}
-
-	public void setIdProvincia(int idProvincia) {
-		this.idProvincia = idProvincia;
 	}
 
 	public String getNombreMunicipio() {

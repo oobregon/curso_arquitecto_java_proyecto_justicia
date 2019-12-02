@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import dao.DaoProvincias;
-import dto.DtoLocalidades;
 import model.Provincia;
 
 @Service
@@ -21,7 +20,7 @@ public class ServicioProvinciasImpl implements ServicioProvincias {
 	DaoProvincias daoProv;
 	
 	//@Override
-	public void inicializarProvincias() {
+	public void inicializarProvincias() throws Exception {
 		String url = "http://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/115/22?page=1";		
 		List provsEncapsuladas = rest.getForObject(url,List.class);
 		List<Provincia> provincias = obtenerEntidades(provsEncapsuladas); 
@@ -39,16 +38,5 @@ public class ServicioProvinciasImpl implements ServicioProvincias {
 			provincias.add(provincia);
 		}
 		return provincias;
-	}
-	
-	
-	@Override
-	public Provincia obtenerProvincia(int idProvincia) {
-		return daoProv.findById(idProvincia).get();
-	}
-
-	@Override
-	public List<Provincia> obtenerProvincias() {
-		return daoProv.findAll();
 	}
 }

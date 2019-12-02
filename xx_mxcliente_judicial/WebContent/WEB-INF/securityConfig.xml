@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+   
+   <security:http use-expressions="false">
+      <!-- mecanismo de autenticacion -->
+      <security:http-basic/>
+      <!-- nuestra propio formulario
+      <security:form-login login-page="/milogin.jsp" authentication-failure-url="/noautorizado.jsp"  > 
+      </security:form-login> -->
+      
+      
+      <!-- procteccion de recursos por url access los user que queremos que accedan-->
+      <security:intercept-url pattern="/index.jsp" access="ROLE_USER,ROLE_JUEZ,ROLE_DIGI,ROLE_ADMIN" />
+      <security:intercept-url pattern="/menuAdmin.jsp" access="ROLE_DIGI,ROLE_ADMIN" />
+      <security:intercept-url pattern="/menuUsuario.jsp" access="ROLE_USER,ROLE_JUEZ" />
+       
+       
+      
+      
+      
+      
+    <!-- token de seguridad, que hay que deshabilitar
+     para que no este pidiendo todo el rato la password -->  
+    <security:csrf disabled="true" />
+    </security:http>
+    <!-- indicamos donde estan los usuarios autorizados -->
+	<security:authentication-manager>
+	  <security:authentication-provider>
+	    <!-- opción 1. Usuarios en el propio archivo con un {noop} para indicar que no lo queremos encriptado-->
+	    <!--  <security:password-encoder hash="sha-256" /> esto es la encriptacion y su tipo de encriptado-->
+	    <security:user-service>
+				<security:user name="1111"  password="{noop}user1"  authorities="ROLE_USER"/>
+				<security:user name="2222"  password="{noop}user2"  authorities="ROLE_JUEZ, ROLE_USER"/>
+				<security:user name="user3" password="{noop}user3"  authorities="ROLE_ADMIN"/>
+				<security:user name="user4" password="{noop}user4"  authorities="ROLE_DIGI"/>
+				
+	     </security:user-service>
+	       <!-- opcion 2: Usuarios en fichero de tipo properties
+	       <security:user-service properties="/WEB-INF/usuarios.properties"/>  -->
+	       <!-- opcion 3: Usuarios en una BASE DE DATOS 
+	       <security:jdbc-user-service data-source-ref="dataUsers" 
+	                      users-by-username-query="SELECT user, pws, enabled FROM users WHERE user=? "
+	                      authorities-by-username-query="SELECT user, auth FROM roles WHERE user=? "
+	        /> -->
+	        <!-- opcion 4: Usuarios en un LDAP 
+	        <security:ldap-user-service  server-ref="sldap"/> -->
+	  </security:authentication-provider>
+	</security:authentication-manager>
+</beans>
