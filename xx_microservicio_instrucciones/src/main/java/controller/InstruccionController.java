@@ -50,8 +50,8 @@ public class InstruccionController {
 	}
 	
 	
-	@PutMapping (value = "/actualizar/{id}")
-	public void actualizarEstado(@PathVariable ("id") int idInstruc ) {
+	@PutMapping (value = "/finalizar/{id}")
+	public void finalizarInstruccion(@PathVariable ("id") int idInstruc ) {
 		Optional <Instruccion> inst= di.findById(idInstruc);
 		Instruccion instrucc=inst.get();
 		instrucc.setEstado("FINALIZADO");
@@ -60,14 +60,14 @@ public class InstruccionController {
 	}
 	
 	@CrossOrigin(origins="*")
-	@PutMapping (value = "/eliminiarJuez/{idJuez}")
+	@PutMapping (value = "/actualizar/{idJuez}")
 	@Transactional
-	public void eliminiarcaJuezYCambiarEstado(@PathVariable ("idJuez") int idJuez ) {
+	public void actualizarInstruccion(@PathVariable ("idJuez") int idJuez ) {
 		List<Instruccion> listaInst= di.findByIdJuez(idJuez);
 	    //System.out.println("--> lista instruciones del juez a eliminiar:"+listaInst.size());
 		for(Instruccion lis:listaInst) {
 			//System.out.println("-->estado:"+lis.getEstado());
-			if(!lis.getEstado().equals("FINALIZADO")) {
+			if(lis.getEstado().equals("EN_PROCESO")) {
 				lis.setEstado("PENDIENTE_ASIGNACION");
 				lis.setIdJuez(0);
 				///System.out.println("-->ahora estado:"+lis.getEstado());
