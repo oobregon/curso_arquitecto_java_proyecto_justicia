@@ -37,6 +37,7 @@ public class ControllerJueces {
 		
 	}
 	
+	@CrossOrigin(origins="*")
 	@DeleteMapping(value="/cambioEstado/{idJuez}")
 	public void cambioEstadoJuez(@PathVariable ("idJuez") int idJuez) {
 		 sJueces.cambioEstadoJuez(idJuez);
