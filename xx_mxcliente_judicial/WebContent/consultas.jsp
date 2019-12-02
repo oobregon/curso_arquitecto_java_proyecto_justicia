@@ -62,13 +62,13 @@ function cargarComboJueces(){
 	var url="http://localhost:8002/jueces";
 	var urlSalida=url+"/lista";
 	console.log=urlSalida;
-	alert('En cargarComboJueces, urlSalida:'+urlSalida);
+	//alert('En cargarComboJueces, urlSalida:'+urlSalida);
 	 $.ajax({
         type: "GET",
         url: urlSalida,
         dataType: 'json', 
         success: function(data){
-            alert('data:'+data);
+            //alert('data:'+data);
             var json=data;
             var opciones='';
             for(var i=0;i<json.length;i++){
