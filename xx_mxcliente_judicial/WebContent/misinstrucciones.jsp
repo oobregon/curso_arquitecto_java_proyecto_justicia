@@ -31,7 +31,7 @@
     	<br><br>
         <table border="1">
 		    <tr> <th style='text-align: center;' >Juez</th><th style='text-align: center;' >&nbsp;Juzgado&nbsp;</th> <th style='text-align: center;'>Instruccion</th> <th>&nbsp;Num Piezas&nbsp;</th>
-		    <th style='text-align: center;' >Fecha Inicio</th> <th style='text-align: center;'>Estado</th> <th>&nbsp;Finalizar Instruccion&nbsp;</th> </tr>
+		    <th style='text-align: center;' >&nbsp;Fecha Inicio&nbsp;</th> <th style='text-align: center;'>Estado</th> <th>&nbsp;Finalizar Instruccion&nbsp;</th> </tr>
 		
 		 <c:forEach var="m" items="${lista}">   		    	
 		    		<tr>
