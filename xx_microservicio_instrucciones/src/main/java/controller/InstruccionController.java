@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,12 +50,31 @@ public class InstruccionController {
 	}
 	
 	
-	@PutMapping (value = "/actualizar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void actualizarPlazas(@PathVariable ("id") int idInstruc ) {
+	@PutMapping (value = "/actualizar/{id}")
+	public void actualizarEstado(@PathVariable ("id") int idInstruc ) {
 		Optional <Instruccion> inst= di.findById(idInstruc);
 		Instruccion instrucc=inst.get();
 		instrucc.setEstado("FINALIZADO");
 		di.save(instrucc);
+		
+	}
+	
+	@CrossOrigin(origins="*")
+	@PutMapping (value = "/eliminiarJuez/{idJuez}")
+	@Transactional
+	public void eliminiarcaJuezYCambiarEstado(@PathVariable ("idJuez") int idJuez ) {
+		List<Instruccion> listaInst= di.findByIdJuez(idJuez);
+	    //System.out.println("--> lista instruciones del juez a eliminiar:"+listaInst.size());
+		for(Instruccion lis:listaInst) {
+			//System.out.println("-->estado:"+lis.getEstado());
+			if(!lis.getEstado().equals("FINALIZADO")) {
+				lis.setEstado("PENDIENTE_ASIGNACION");
+				lis.setIdJuez(0);
+				///System.out.println("-->ahora estado:"+lis.getEstado());
+				di.save(lis);
+			}
+		}
+	    
 		
 	}
 	
