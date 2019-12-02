@@ -16,11 +16,11 @@
 function cambiarEstado (id){
 	//alert('En cambiarEstado');
 	var url ="http://localhost:8002/jueces";
-	var urlSalida=url+"/baja/"+id;
+	var urlSalida=url+"/cambioEstado/"+id;
 	//alert('urlSalida es:'+urlSalida);
 	$.ajax({
 		   url: urlSalida,
-		   type: 'PUT',
+		   type: 'DELETE',
 		   success: function(response) {
 			   cambiarInstruccion(id);
 		   }
@@ -31,8 +31,9 @@ function cambiarEstado (id){
 function cambiarInstruccion (id){
 	//alert('En cambiarInstruccion:'+id);
 	var url ="http://localhost:9002/instruccion";
-	var urlSalida=url+"/eliminiarJuez/"+id;
+	var urlSalida=url+"/actualizar/"+id;
 	//alert('urlSalida es:'+urlSalida);
+	console.log=urlSalida;
 	$.ajax({
 		   url: urlSalida,
 		   type: 'PUT',
