@@ -3,6 +3,8 @@ package servicio;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +19,10 @@ import model.Provincia;
 
 @Service
 public class ServicioLocalidadesImpl implements ServicioLocalidades {	
+	private static final Logger log = LoggerFactory.getLogger(ServicioLocalidadesImpl.class);
+	private int posInicialPaginacion = 0;
+	private int numRegsARecuperar = 500;
+	
 	@Autowired
 	RestTemplate rest;
 	
@@ -28,43 +34,36 @@ public class ServicioLocalidadesImpl implements ServicioLocalidades {
 
 	@Override
 	public void inicializarLocalidades() throws Exception {
-		daoLoc.deleteAll();
-		int limInferior = 0;
-		int desplazamiento = 500;
-		String url = obtenerUrl(limInferior,desplazamiento);		
-		DtoLocalidades jsonLocalidades = rest.getForObject(url,DtoLocalidades.class);
-		insertarPorRangos(jsonLocalidades,limInferior,desplazamiento);			
+		daoLoc.deleteAll();		
+		DtoLocalidades jsonLocalidadesPorPagina = this.obtenerJsonParcial(posInicialPaginacion,numRegsARecuperar);
+		insertarPaginando(jsonLocalidadesPorPagina.getNhits(),jsonLocalidadesPorPagina);			
 	}
 	
-	private String obtenerUrl(int indice,int desplazamiento) {
-		String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=espana-municipios&start=" + indice + "&rows=" + desplazamiento + "&fields=cpro,provincia,cmun,municipio";
-		return url;
-	}	
+	private DtoLocalidades obtenerJsonParcial(int posInicial,int desplazamiento) {
+		String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=espana-municipios&start=" + posInicial + "&rows=" + desplazamiento + "&fields=cpro,provincia,cmun,municipio";
+		return rest.getForObject(url,DtoLocalidades.class);
+	}
 	
-	private void insertarPorRangos(DtoLocalidades jsonLocalidades,int indice,int desplazamiento) {		
-		int numTotalRegs = jsonLocalidades.getNhits();
-		int numNulos = 0;		
-		do {			
-			List<Localidad> lista = new ArrayList<Localidad>();
-			List<DtoRegistros> registros = jsonLocalidades.getRecords();						
-			for(DtoRegistros reg : registros) {			
-				DtoLocalidad dtoLocalidad = reg.getFields();
-				try {
-					Provincia provincia = daoProv.findById(Integer.parseInt(dtoLocalidad.getCpro())).get();
-					Localidad localidad = new Localidad(Integer.parseInt(dtoLocalidad.getCmun()),
-							Integer.parseInt(dtoLocalidad.getCpro()),
-	                        dtoLocalidad.getMunicipio(),
-	                        provincia);					
-					lista.add(localidad);					
+	private void insertarPaginando(int numLocsEnEspaña,DtoLocalidades jsonParcialLocalidades) {				
+		int numLocsNoValidas = 0;		
+		do {						
+			List<DtoRegistros> regslocalidadesPorPagina = jsonParcialLocalidades.getRecords();
+			List<Localidad> localidadesPorPagina = new ArrayList<Localidad>();
+			for(DtoRegistros regLocalidad : regslocalidadesPorPagina) {			
+				DtoLocalidad dtoLocalidad = regLocalidad.getFields();
+				try { 
+					Provincia provincia = daoProv.findById(Integer.parseInt(dtoLocalidad.getCpro())).get();						
+					Localidad localidad = new Localidad(Integer.parseInt(dtoLocalidad.getCmun()),dtoLocalidad.getMunicipio(),provincia);
+					provincia.getLocalidades().add(localidad);
+					localidadesPorPagina.add(localidad);
+					
 				} catch(Exception ex) {					
-					numNulos++;
+					numLocsNoValidas++;
 				}
 			}
-			daoLoc.saveAll(lista);
-			String url = "";
-			url = obtenerUrl(indice+=desplazamiento,desplazamiento);			
-			jsonLocalidades = rest.getForObject(url,DtoLocalidades.class);			
-		} while (indice < numTotalRegs);
-		System.out.println("Localidades no insertadas: " + numNulos);
-	}			
+			daoLoc.saveAll(localidadesPorPagina);				
+			jsonParcialLocalidades = this.obtenerJsonParcial(posInicialPaginacion+=numRegsARecuperar,numRegsARecuperar);			
+		} while (posInicialPaginacion < numLocsEnEspaña);					
+		log.info("Localidades no insertadas: " + numLocsNoValidas);
+	}	
 }
