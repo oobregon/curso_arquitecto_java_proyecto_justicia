@@ -43,7 +43,7 @@
 						<td style="text-align: center;">&nbsp;${m.estado}&nbsp;</td>
 					    <c:choose>
    						 <c:when test="${'EN_PROCESO'== m.estado}">
-        					<td style="text-align: center;" ><a href="doActualizar?id=${m.idInstruccion}&juez=${m.idJuez}">Finalizar</a></td>
+        					<td style="text-align: center;" ><a href="doFinalizar?id=${m.idInstruccion}&juez=${m.idJuez}">Finalizar</a></td>
    						 </c:when>
    						 <c:otherwise>
 						     <td></td>
