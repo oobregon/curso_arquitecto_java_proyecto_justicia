@@ -73,12 +73,12 @@ public class InstruccionesController {
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		
-		@GetMapping (value = "/doActualizar")
-		public String actualizarInstruccion (@RequestParam("id") int idInstruccion, @RequestParam("juez") int idjuez ,
+		@GetMapping (value = "/doFinalizar")
+		public String finalizarInstruccion (@RequestParam("id") int idInstruccion, @RequestParam("juez") int idjuez ,
 				HttpServletRequest req) {
 			System.out.println("-->En actualizarInstruccion:"+idInstruccion);
-			System.out.println("-->url:"+url+"/actualizar/"+idInstruccion);
-			template.put(url+"/actualizar/"+idInstruccion,null);
+			System.out.println("-->url:"+url+"/finalizar/"+idInstruccion);
+			template.put(url+"/finalizar/"+idInstruccion,null);
 			System.out.println("ahora url:"+url+"/listaJuez/"+idjuez);
 			ItemInstruccion[] listaInstr =template.getForObject(url+"/listaJuez/"+idjuez, ItemInstruccion[].class);
 			
