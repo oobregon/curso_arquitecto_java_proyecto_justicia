@@ -60,7 +60,7 @@ public class InstruccionesController {
 		
 		
 		@PostMapping(value = "/alta")
-		public String altaContacto(@ModelAttribute("instruccion")DtoInstruccion instruccion) {
+		public String altaInstruccion(@ModelAttribute("instruccion")DtoInstruccion instruccion) {
 			System.out.println("-->En post alta, instruccion:"+instruccion);
 			System.out.println("-->instruccion.getEstado():"+instruccion.getNombreProceso());
 			DtoInstruccion inst=instruccion;
@@ -119,7 +119,7 @@ public class InstruccionesController {
 		
 
 
-		  @GetMapping(value = "/doInstruciones" )
+		  @GetMapping(value = "/doInstrucciones" )
 		  public String obtenerInstruccionDelJuez(HttpServletRequest req, Authentication authentication) throws ParseException {
 				System.out.println("-->En obtenerInstruccionDelJuez!!");
 				String urlSalida="";
