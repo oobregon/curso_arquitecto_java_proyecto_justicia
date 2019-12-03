@@ -30,7 +30,25 @@ public class JuecesController {
 	
 	
 	@GetMapping(value="toAltaJuez")
-	public String registrarJuez(Model model, HttpServletRequest request) {
+	public String registrarJuez(Model model, HttpServletRequest request, Authentication authentication) {
+		//////////////////////////////////////////////
+		Collection<? extends GrantedAuthority> gra= authentication.getAuthorities();
+		boolean esAutorizado=false;
+		String autoriz= gra.toString();
+		autoriz =autoriz.substring(1, autoriz.length()-1);
+		String [] roles=autoriz.split(",");
+		List <String> lisRoles=Arrays.asList(roles);
+		lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
+		for(String rol:lisRoles) {
+			if(rol.equals("ROLE_ADMIN")) {
+				esAutorizado=true;
+				break;
+			}
+		}
+		if(!esAutorizado) {
+			return "error"; 
+		}
+		//////////////////////////////////////////////
 		DtoJuez  juez= new DtoJuez();
 		model.addAttribute("juez", juez);
 		return "altaJuez";
