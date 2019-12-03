@@ -57,7 +57,7 @@ public class InstruccionesController {
 			List <String> lisRoles=Arrays.asList(roles);
 			lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
 			for(String rol:lisRoles) {
-				if(rol.equals("ROLE_DIGI")) {
+				if(rol.trim().equals("ROLE_DIGI")) {
 					esAutorizado=true;
 		    		break;
 				}
@@ -150,7 +150,7 @@ public class InstruccionesController {
 			    List <String> lisRoles=Arrays.asList(roles);
 			    lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
 			    for(String rol:lisRoles) {
-			    	 if(rol.equals("ROLE_JUEZ")) {
+			    	 if(rol.trim().equals("ROLE_JUEZ")) {
 			    		 String idUser =authentication.getName();
 			 			 urlSalida=url+"/listaJuez/"+Integer.parseInt(idUser);
 			    		 esAutorizado=true;
