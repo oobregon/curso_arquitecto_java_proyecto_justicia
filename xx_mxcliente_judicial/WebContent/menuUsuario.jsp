@@ -16,7 +16,7 @@
 <br/><br/> <br/><br/>
 <a href="toConsultas" >Ir a Consultar</a>
 <br/><br/>
-<a href="doInstruciones" >Mis Instrucciones</a>
+<a href="doInstrucciones" >Mis Instrucciones</a>
 </div>
 </body>
 </html>
