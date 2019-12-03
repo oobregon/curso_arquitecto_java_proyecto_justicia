@@ -1,7 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,15 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
 import dto.DtoJuzgado;
-import dto.DtoLocalidad;
 import dto.DtoProvincia;
 
 @Controller
 public class JuzgadosController {
 	
 	String urlJuzgado="http://localhost:8001/juzgados";
-	String urlProv ="http://localhost:8003/provincias";
-	String urlLoc ="http://localhost:8004/localidades";
+	String urlProv ="http://localhost:9000/justicia/geo/provincias";
+	
 	
 	@Autowired
 	RestTemplate template;
@@ -31,20 +29,9 @@ public class JuzgadosController {
 	public String registrarJuzgado(Model model ,HttpServletRequest request) {
 		DtoJuzgado  juz= new DtoJuzgado();
 		model.addAttribute("juzgado", juz);
-//	   Provincia [] provincias= template.getForObject(urlProv, Provincia[].class);
-		DtoProvincia p1 = new DtoProvincia(1,"ASTURIAS");
-		DtoProvincia p2 = new DtoProvincia(2,"MADRID");
-		List<DtoProvincia> provincias = new ArrayList<>();
-		provincias.add(p1);
-		provincias.add(p2);		
-	    request.setAttribute("provincias", provincias); 
-//	    Localidad [] localidades= template.getForObject(urlLoc, Localidad[].class); 
-	    DtoLocalidad l1 = new DtoLocalidad(1,"LLanes");
-	    DtoLocalidad l2 = new DtoLocalidad(2,"Pozuelo");
-		List<DtoLocalidad> localidades = new ArrayList<>();
-		localidades.add(l1);
-		localidades.add(l2);
-	    request.setAttribute("localidades", localidades); 
+	    DtoProvincia [] provincias= template.getForObject(urlProv, DtoProvincia[].class);
+	    System.out.println("-->provincias:"+provincias.length);
+		request.setAttribute("provincias", Arrays.asList(provincias));  
 	    
 		return "altaJuzgado";
 	}
