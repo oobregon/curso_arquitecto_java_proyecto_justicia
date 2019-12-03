@@ -34,10 +34,11 @@
 	    <!-- opción 1. Usuarios en el propio archivo con un {noop} para indicar que no lo queremos encriptado-->
 	    <!--  <security:password-encoder hash="sha-256" /> esto es la encriptacion y su tipo de encriptado-->
 	    <security:user-service>
-				<security:user name="1111"  password="{noop}user1"  authorities="ROLE_USER"/>
+				<security:user name="user1"  password="{noop}user1"  authorities="ROLE_USER"/>
 				<security:user name="2222"  password="{noop}user2"  authorities="ROLE_JUEZ, ROLE_USER"/>
 				<security:user name="user3" password="{noop}user3"  authorities="ROLE_ADMIN"/>
 				<security:user name="user4" password="{noop}user4"  authorities="ROLE_DIGI"/>
+				<security:user name="user5" password="{noop}user5"  authorities="ROLE_ADMIN, ROLE_DIGI"/>
 				
 	     </security:user-service>
 	       <!-- opcion 2: Usuarios en fichero de tipo properties
