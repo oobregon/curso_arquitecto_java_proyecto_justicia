@@ -14,9 +14,9 @@
 <body>
 <div align="center">
 <br/><br/>
-<a href="">Inicializar Provincias</a>
+<a href="toIniciarProv">Inicializar Provincias</a>
 <br/><br/>
-<a href="">Inicializar Localidades</a>
+<a href="toIniciarLocal">Inicializar Localidades</a>
 <br/><br/>
 <a href="toAltaJuzgado">Alta de Juzgados</a>
 <br/><br/>
