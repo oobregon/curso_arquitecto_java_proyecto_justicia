@@ -1,10 +1,14 @@
 package controller;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +30,25 @@ public class JuzgadosController {
 	RestTemplate template;
 	
 	@GetMapping(value="toAltaJuzgado")
-	public String registrarJuzgado(Model model ,HttpServletRequest request) {
+	public String registrarJuzgado(Model model ,HttpServletRequest request,  Authentication authentication) {
+		//////////////////////////////////////////////
+		Collection<? extends GrantedAuthority> gra= authentication.getAuthorities();
+		boolean esAutorizado=false;
+		String autoriz= gra.toString();
+		autoriz =autoriz.substring(1, autoriz.length()-1);
+		String [] roles=autoriz.split(",");
+		List <String> lisRoles=Arrays.asList(roles);
+		lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
+		for(String rol:lisRoles) {
+			if(rol.equals("ROLE_ADMIN")) {
+				esAutorizado=true;
+				break;
+			}
+		}
+		if(!esAutorizado) {
+			return "error"; 
+		}
+		//////////////////////////////////////////////
 		DtoJuzgado  juz= new DtoJuzgado();
 		model.addAttribute("juzgado", juz);
 	    DtoProvincia [] provincias= template.getForObject(urlProv, DtoProvincia[].class);
@@ -45,5 +67,27 @@ public class JuzgadosController {
         return "menuAdmin";
 	}
 	
+	
+	@GetMapping(value="toConsultas")
+	public String validaAutenticacionConsultas(Authentication authentication) {
+		Collection<? extends GrantedAuthority> gra= authentication.getAuthorities();
+	    boolean esAutorizado=false;
+	    String autoriz= gra.toString();
+	    autoriz =autoriz.substring(1, autoriz.length()-1);
+	    String [] roles=autoriz.split(",");
+	    List <String> lisRoles=Arrays.asList(roles);
+	    lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
+	    for(String rol:lisRoles) {
+	    	 if(rol.equals("ROLE_USER")) {
+	    		esAutorizado=true;
+	    		 break;
+	    	 }
+	    }
+	    if(!esAutorizado) {
+	     return "error"; 
+	    }
+		
+	    return "consultas";
+	}
 
 }
