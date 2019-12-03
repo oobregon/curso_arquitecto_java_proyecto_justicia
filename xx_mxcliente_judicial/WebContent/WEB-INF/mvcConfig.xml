@@ -24,7 +24,7 @@
 	</bean>
 	
 	<!--  <mvc:view-controller path="toAlta" view-name="alta"/> -->
-	<mvc:view-controller path="toConsultas" view-name="consultas"/>
+	<!--  mvc:view-controller path="toConsultas" view-name="consultas"/-->
 	<mvc:view-controller path="toUsuario" view-name="menuUsuario"/>
 	<mvc:view-controller path="toAdministrativa" view-name="menuAdmin"/>
 	
