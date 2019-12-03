@@ -40,7 +40,7 @@ public class JuzgadosController {
 		List <String> lisRoles=Arrays.asList(roles);
 		lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
 		for(String rol:lisRoles) {
-			if(rol.equals("ROLE_ADMIN")) {
+			if(rol.trim().equals("ROLE_ADMIN")) {
 				esAutorizado=true;
 				break;
 			}
@@ -78,7 +78,7 @@ public class JuzgadosController {
 	    List <String> lisRoles=Arrays.asList(roles);
 	    lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
 	    for(String rol:lisRoles) {
-	    	 if(rol.equals("ROLE_USER")) {
+	    	 if(rol.trim().equals("ROLE_USER")) {
 	    		esAutorizado=true;
 	    		 break;
 	    	 }
