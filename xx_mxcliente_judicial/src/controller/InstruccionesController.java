@@ -47,7 +47,25 @@ public class InstruccionesController {
 		
 		
 		@GetMapping (value = "toAltaInstruccion")
-		public String inicio (Model model, HttpServletRequest req) {
+		public String inicio (Model model, HttpServletRequest req, Authentication authentication) {
+			//////////////////////////////////////////////
+			Collection<? extends GrantedAuthority> gra= authentication.getAuthorities();
+			boolean esAutorizado=false;
+			String autoriz= gra.toString();
+			autoriz =autoriz.substring(1, autoriz.length()-1);
+			String [] roles=autoriz.split(",");
+			List <String> lisRoles=Arrays.asList(roles);
+			lisRoles.stream().forEach(t->System.out.println("-->valor:"+t.trim()));
+			for(String rol:lisRoles) {
+				if(rol.equals("ROLE_DIGI")) {
+					esAutorizado=true;
+		    		break;
+				}
+			}
+			if(!esAutorizado) {
+			     return "error"; 
+			}
+			//////////////////////////////////////////////
 			DtoInstruccion instruc=new DtoInstruccion();
 			model.addAttribute("instruccion",instruc);
 			String url="http://localhost:8001/juzgados";
