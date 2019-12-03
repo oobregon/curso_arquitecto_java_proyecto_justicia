@@ -150,7 +150,7 @@ function enviar(){
 	 	 
   </div>	
 	<br/><br/><br/> 
-    <input type="button" onclick="enviar();" value="Enviar" />
+    <input type="button"  class="btn btn-default" onclick="enviar();" value="Enviar" />
    
 </form>
 </div>
